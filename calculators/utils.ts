@@ -23,7 +23,7 @@ interface ExerciseValues {
 
 export const parseExerciseArguments = (args: string[]): ExerciseValues => {
     if (args.length < 4) throw new Error("Not enough arguments");
-    const array = [];
+    const array: number[] = [];
     const modifiedArgs: string[] = [...args];
     modifiedArgs.splice(0, 3);
     modifiedArgs.forEach((arg) => {
