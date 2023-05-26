@@ -1,4 +1,6 @@
-const calculateExercises = (exerciseHours: number[], targetValue: number) => {
+import { parseExerciseArguments } from "./utils";
+
+const calculateExercises = (targetValue: number, exerciseHours: number[]) => {
     const periodLength = exerciseHours.length;
     const trainingDays = (): number => {
         let trainingDays = 0;
@@ -52,4 +54,15 @@ const calculateExercises = (exerciseHours: number[], targetValue: number) => {
     return result;
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+// console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+
+try {
+    const { value1, value2 } = parseExerciseArguments(process.argv);
+    console.log(calculateExercises(value1, value2));
+} catch (error: unknown) {
+    let errorMessage = "Something bad happened.";
+    if (error instanceof Error) {
+        errorMessage += " Error: " + error.message;
+    }
+    console.log(errorMessage);
+}

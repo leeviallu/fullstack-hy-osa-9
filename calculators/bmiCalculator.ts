@@ -1,4 +1,4 @@
-import parseArguments from "./utils";
+import { parseBmiArguments } from "./utils";
 
 const calculateBmi = (height: number, weight: number): String => {
     const heightAsMeters = height / 100;
@@ -28,7 +28,7 @@ const calculateBmi = (height: number, weight: number): String => {
 };
 
 try {
-    const { value1, value2 } = parseArguments(process.argv, "bmi");
+    const { value1, value2 } = parseBmiArguments(process.argv);
     console.log(calculateBmi(value1, value2));
 } catch (error: unknown) {
     let errorMessage = "Something bad happened.";
