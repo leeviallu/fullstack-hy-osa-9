@@ -54,6 +54,9 @@ const calculateExercises = (targetValue: number, exerciseHours: number[]) => {
     return result;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default calculateExercises;
+
 // console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
 
 try {
