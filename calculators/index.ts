@@ -8,8 +8,8 @@ app.get("/hello", (_req, res) => {
 
 app.get("/bmi?", (req, res) => {
     try {
-        const height: number = Number(req.query.height);
-        const weight: number = Number(req.query.weight);
+        const height = Number(req.query.height);
+        const weight = Number(req.query.weight);
         if (isNaN(height) || isNaN(weight) || weight === 0 || height === 0) {
             throw new Error("malformatted data");
         }
@@ -19,10 +19,14 @@ app.get("/bmi?", (req, res) => {
             weight,
             bmi,
         });
-    } catch (error) {
+    } catch (error: unknown) {
+        let errorMessage = "Something went wrong: ";
+        if (error instanceof Error) {
+            errorMessage += error.message;
+        }
         res.status(400);
         res.json({
-            error: error.message,
+            error: errorMessage,
         });
     }
 });

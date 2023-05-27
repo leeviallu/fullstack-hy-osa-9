@@ -1,6 +1,6 @@
 import { parseBmiArguments } from "./utils";
 
-const calculateBmi = (height: number, weight: number): String => {
+const calculateBmi = (height: number, weight: number): string => {
     const heightAsMeters = height / 100;
     const bmi = weight / (heightAsMeters * heightAsMeters);
     if (bmi < 16) {
