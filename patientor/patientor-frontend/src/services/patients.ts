@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v1 as uuid } from "uuid";
 import { NonSensitivePatientData, Patient, PatientFormValues } from "../types";
 
 import { apiBaseUrl } from "../constants";
@@ -18,12 +19,16 @@ const getNonSensitivePatientData = async () => {
 };
 
 const create = async (object: PatientFormValues) => {
-    const { data } = await axios.post<Patient>(
-        `${apiBaseUrl}/patients`,
-        object
-    );
-
-    return data;
+    const newPatient = {
+        id: uuid(),
+        ...object,
+    };
+    try {
+        await axios.post<Patient>(`${apiBaseUrl}/patients`, newPatient);
+    } catch (error) {
+        console.error(error);
+    }
+    return newPatient;
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
