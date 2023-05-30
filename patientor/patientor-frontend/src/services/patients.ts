@@ -2,6 +2,7 @@ import axios from "axios";
 import { v1 as uuid } from "uuid";
 import { NonSensitivePatientData, Patient, PatientFormValues } from "../types";
 
+// import toNewPatientEntry from "../utils";
 import { apiBaseUrl } from "../constants";
 
 const getAll = async () => {
@@ -23,12 +24,20 @@ const create = async (object: PatientFormValues) => {
         id: uuid(),
         ...object,
     };
+    // const newPatientEntry = toNewPatientEntry(newPatient);
+    console.log("newpat", newPatient);
     try {
-        await axios.post<Patient>(`${apiBaseUrl}/patients`, newPatient);
+        console.log("hi");
+        console.log(`${apiBaseUrl}/patients`);
+        const response = await axios.post<Patient>(
+            `${apiBaseUrl}/patients`,
+            newPatient
+        );
+        console.log("dataaa", response);
+        return newPatient;
     } catch (error) {
-        console.error(error);
+        throw new Error("error:" + error);
     }
-    return newPatient;
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

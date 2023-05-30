@@ -23,13 +23,15 @@ app.get("/api/patients", (_req, res) => {
 
 app.post("/api/patients", (req, res) => {
     const { name, occupation, ssn, dateOfBirth, gender } = req.body;
-    const addedPatient = patientService.create({
+    const patient = {
         name,
         occupation,
+        gender,
         ssn,
         dateOfBirth,
-        gender,
-    });
+    };
+    const addedPatient = patientService.create(patient);
+    console.log("added", addedPatient);
     res.send(addedPatient);
 });
 
