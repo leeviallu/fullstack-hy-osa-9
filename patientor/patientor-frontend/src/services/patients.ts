@@ -1,5 +1,4 @@
 import axios from "axios";
-import { v1 as uuid } from "uuid";
 import { NonSensitivePatientData, Patient, PatientFormValues } from "../types";
 
 // import toNewPatientEntry from "../utils";
@@ -20,21 +19,12 @@ const getNonSensitivePatientData = async () => {
 };
 
 const create = async (object: PatientFormValues) => {
-    const newPatient = {
-        id: uuid(),
-        ...object,
-    };
-    // const newPatientEntry = toNewPatientEntry(newPatient);
-    console.log("newpat", newPatient);
     try {
-        console.log("hi");
-        console.log(`${apiBaseUrl}/patients`);
-        const response = await axios.post<Patient>(
+        const { data } = await axios.post<Patient>(
             `${apiBaseUrl}/patients`,
-            newPatient
+            object
         );
-        console.log("dataaa", response);
-        return newPatient;
+        return data;
     } catch (error) {
         throw new Error("error:" + error);
     }

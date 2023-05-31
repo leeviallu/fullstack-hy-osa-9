@@ -1,4 +1,4 @@
-const data = [
+const patientData = [
     {
         id: "d2773336-f723-11e9-8f0b-362b9e155667",
         name: "John McClane",
@@ -41,7 +41,7 @@ const data = [
     },
 ];
 
-export const nonSensitivePatientData = data.map(
+export const nonSensitivePatientData = patientData.map(
     ({ id, name, dateOfBirth, gender, occupation }) => ({
         id,
         name,
@@ -51,4 +51,4 @@ export const nonSensitivePatientData = data.map(
     })
 );
 
-export default data;
+export default patientData;
