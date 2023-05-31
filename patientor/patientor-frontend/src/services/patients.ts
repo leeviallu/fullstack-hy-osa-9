@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NonSensitivePatientData, Patient, PatientFormValues } from "../types";
 
-// import toNewPatientEntry from "../utils";
+import toNewPatientEntry from "../utils";
 import { apiBaseUrl } from "../constants";
 
 const getAll = async () => {
@@ -19,6 +19,7 @@ const getNonSensitivePatientData = async () => {
 };
 
 const create = async (object: PatientFormValues) => {
+    toNewPatientEntry(object);
     try {
         const { data } = await axios.post<Patient>(
             `${apiBaseUrl}/patients`,

@@ -23,9 +23,9 @@ app.get("/api/patients", (_req, res) => {
 });
 
 app.post("/api/patients", (req, res) => {
-    const { name, occupation, dateOfBirth, gender } = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const id = uuid();
+    const { name, occupation, dateOfBirth, gender } = req.body;
     const patient = {
         id,
         name,
@@ -33,7 +33,6 @@ app.post("/api/patients", (req, res) => {
         gender,
         dateOfBirth,
     };
-    console.log(patient);
     nonSensitivePatientData.push(patient);
     res.send(patient);
 });
