@@ -19,16 +19,12 @@ const App = () => {
             exerciseCount: 14,
         },
     ];
-    const allExercisesCount = courseParts.reduce(
-        (carry, part) => carry + part.exerciseCount,
-        0
-    );
 
     return (
         <div>
             <Header name={courseName} />
             <Content courses={courseParts} />
-            <Total allExercisesCount={allExercisesCount} />
+            <Total courses={courseParts} />
         </div>
     );
 };
