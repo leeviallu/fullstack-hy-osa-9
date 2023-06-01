@@ -2,7 +2,6 @@ import Header from "./components/Header";
 import Content from "./components/Content";
 import Total from "./components/Total";
 import { CoursePart } from "./types";
-import { Key } from "react";
 
 const App = () => {
     const courseName = "Half Stack application development";
@@ -28,15 +27,7 @@ const App = () => {
     return (
         <div>
             <Header name={courseName} />
-            {courseParts.map(
-                (course: CoursePart, idx: Key | null | undefined) => (
-                    <Content
-                        key={idx}
-                        name={course.name}
-                        exerciseCount={course.exerciseCount}
-                    />
-                )
-            )}
+            <Content courses={courseParts} />
             <Total allExercisesCount={allExercisesCount} />
         </div>
     );
