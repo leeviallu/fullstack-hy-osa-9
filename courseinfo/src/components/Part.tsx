@@ -39,6 +39,24 @@ const Part = ({ course }: { course: CoursePart }) => {
                     submit to {course.backgroundMaterial}
                 </div>
             );
+        case "special":
+            return (
+                <div>
+                    <b>
+                        {course.name} {course.exerciseCount}
+                    </b>
+                    <br />
+                    <i>{course.description}</i>
+                    <br />
+                    required skills:{" "}
+                    {course.requirements.map((requirement, idx) => {
+                        if (course.requirements.length - 1 === idx) {
+                            return <span key={idx}>{requirement}</span>;
+                        }
+                        return <span key={idx}>{requirement}, </span>;
+                    })}
+                </div>
+            );
         default:
             return assertNever(course);
     }
