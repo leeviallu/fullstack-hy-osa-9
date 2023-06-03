@@ -7,7 +7,6 @@ import patientData, { nonSensitivePatientData } from "./data/patients";
 
 const app = express();
 app.use(express.json());
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 app.use(cors());
 
 app.get("/api/ping", (_req, res) => {
@@ -23,11 +22,10 @@ app.get("/api/patients", (_req, res) => {
 });
 
 app.post("/api/patients", (req, res) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const id = uuid();
     const entries: never[] = [];
-    const { name, occupation, dateOfBirth, gender } = req.body;
-    const patient = {
+    const { name, occupation, dateOfBirth, gender, ssn } = req.body;
+    const nonSensitivePatient = {
         id,
         name,
         dateOfBirth,
@@ -35,7 +33,17 @@ app.post("/api/patients", (req, res) => {
         occupation,
         entries,
     };
-    nonSensitivePatientData.push(patient);
+    const patient = {
+        id,
+        name,
+        dateOfBirth,
+        gender,
+        occupation,
+        entries,
+        ssn,
+    };
+    nonSensitivePatientData.push(nonSensitivePatient);
+    patientData.push(patient);
     res.send(patient);
 });
 
