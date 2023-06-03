@@ -13,7 +13,14 @@ export const createDiary = async (object: {
     weather: string;
     comment: string;
 }) => {
-    console.log(object);
-    const { data } = await axios.post(baseUrl, object);
-    return data;
+    try {
+        const result = await axios.post(baseUrl, object);
+        return result;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return error.response;
+        } else {
+            console.error(error);
+        }
+    }
 };

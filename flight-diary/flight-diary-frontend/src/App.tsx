@@ -15,21 +15,34 @@ const App = () => {
     const [newWeather, setNewWeather] = useState("");
     const [newComment, setNewComment] = useState("");
     const [newDate, setNewDate] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     useEffect(() => {
         getAllDiaries().then((data) => {
             setDiaries(data);
         });
     }, []);
 
-    const diaryCreation = (event: React.SyntheticEvent) => {
+    const diaryCreation = async (event: React.SyntheticEvent) => {
         event.preventDefault();
-        createDiary({
+        const result = await createDiary({
             date: newDate,
             visibility: newVisibility,
             weather: newWeather,
             comment: newComment,
         });
-
+        if (result) {
+            if (
+                typeof result.data === "string" ||
+                result.data instanceof String
+            ) {
+                setErrorMessage(String(result.data));
+                setTimeout(() => {
+                    setErrorMessage("");
+                }, 5000);
+            } else {
+                setDiaries([...diaries, result.data]);
+            }
+        }
         setNewDate("");
         setNewVisibility("");
         setNewWeather("");
@@ -38,6 +51,9 @@ const App = () => {
     return (
         <div>
             <h1>Add new entry</h1>
+            {errorMessage ? (
+                <p style={{ color: "red" }}>{errorMessage}</p>
+            ) : null}
             <form onSubmit={diaryCreation}>
                 <input
                     placeholder="date"
