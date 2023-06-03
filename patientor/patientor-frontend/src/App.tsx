@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
@@ -11,6 +10,7 @@ import patientService from "./services/patients";
 import PatientListPage from "./components/PatientListPage";
 
 import diagnosisService from "./services/diagnoses";
+import PatientPage from "./components/PatientPage";
 
 const App = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
@@ -57,6 +57,7 @@ const App = () => {
                                 />
                             }
                         />
+                        <Route path="/patients/:id" element={<PatientPage />} />
                     </Routes>
                 </Container>
             </Router>

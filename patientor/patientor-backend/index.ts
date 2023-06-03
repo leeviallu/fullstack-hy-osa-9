@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import { v1 as uuid } from "uuid";
 import diagnosesData from "./data/diagnoses";
-import { nonSensitivePatientData } from "./data/patients";
+import patientData, { nonSensitivePatientData } from "./data/patients";
 
 const app = express();
 app.use(express.json());
@@ -41,7 +41,7 @@ app.post("/api/patients", (req, res) => {
 
 app.get("/api/patients/:id", (req, res) => {
     const id = req.params.id;
-    const patient = nonSensitivePatientData.find((p) => p.id === id);
+    const patient = patientData.find((p) => p.id === id);
     if (patient) {
         res.send(patient);
     } else {

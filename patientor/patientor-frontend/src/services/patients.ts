@@ -18,6 +18,15 @@ const getNonSensitivePatientData = async () => {
     return data;
 };
 
+const getPatientData = async (id: string | undefined) => {
+    if (id === undefined) {
+        throw new Error("Can't get patient without id");
+    }
+    const { data } = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
+
+    return data;
+};
+
 const create = async (object: PatientFormValues) => {
     toNewPatientEntry(object);
     try {
@@ -36,4 +45,5 @@ export default {
     getAll,
     create,
     getNonSensitivePatientData,
+    getPatientData,
 };
