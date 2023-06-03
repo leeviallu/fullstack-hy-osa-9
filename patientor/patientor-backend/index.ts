@@ -3,7 +3,18 @@ import express from "express";
 import cors from "cors";
 import { v1 as uuid } from "uuid";
 import diagnosesData from "./data/diagnoses";
-import patientData, { nonSensitivePatientData } from "./data/patients";
+import patientData from "./data/patients";
+
+const nonSensitivePatientData = patientData.map(
+    ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+        id,
+        name,
+        dateOfBirth,
+        gender,
+        occupation,
+        entries,
+    })
+);
 
 const app = express();
 app.use(express.json());
