@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { getAllDiaries, createDiary } from "./services/diaries";
+interface Diary {
+    date: string;
+    id: number;
+    visibility: string;
+    weather: string;
+    comment?: string;
+}
 
 const App = () => {
-    interface Diary {
-        date: string;
-        id: number;
-        visibility: string;
-        weather: string;
-        comment?: string;
-    }
-
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [newVisibility, setNewVisibility] = useState("");
     const [newWeather, setNewWeather] = useState("");
