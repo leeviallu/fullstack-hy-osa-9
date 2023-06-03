@@ -25,16 +25,28 @@ app.get("/api/patients", (_req, res) => {
 app.post("/api/patients", (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const id = uuid();
+    const entries: never[] = [];
     const { name, occupation, dateOfBirth, gender } = req.body;
     const patient = {
         id,
         name,
-        occupation,
-        gender,
         dateOfBirth,
+        gender,
+        occupation,
+        entries,
     };
     nonSensitivePatientData.push(patient);
     res.send(patient);
+});
+
+app.get("/api/patients/:id", (req, res) => {
+    const id = req.params.id;
+    const patient = nonSensitivePatientData.find((p) => p.id === id);
+    if (patient) {
+        res.send(patient);
+    } else {
+        res.status(404).send("Patient not found");
+    }
 });
 
 const PORT = 3001;

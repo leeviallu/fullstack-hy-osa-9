@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
@@ -19,7 +20,7 @@ const App = () => {
         void axios.get<void>(`${apiBaseUrl}/ping`);
 
         const fetchPatientList = async () => {
-            const patients = await patientService.getNonSensitivePatientData();
+            const patients = await patientService.getAll();
             setPatients(patients);
         };
         void fetchPatientList();

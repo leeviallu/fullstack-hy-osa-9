@@ -11,7 +11,7 @@ const parseString = (item: unknown) => {
     return item;
 };
 
-const toNewPatientEntry = (object: any): Omit<Patient, "id"> => {
+const toNewPatientEntry = (object: any): Omit<Patient, "id" | "entries"> => {
     if (!object || typeof object !== "object") {
         throw new Error("Incorrect or missing data");
     }
