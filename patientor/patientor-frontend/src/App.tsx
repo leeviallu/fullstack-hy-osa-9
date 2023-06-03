@@ -14,7 +14,7 @@ import PatientPage from "./components/PatientPage";
 
 const App = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
-    const [diagnosis, setDiagnosis] = useState<Diagnosis[]>([]);
+    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>();
 
     useEffect(() => {
         void axios.get<void>(`${apiBaseUrl}/ping`);
@@ -27,7 +27,7 @@ const App = () => {
 
         const fetchDiagnosisList = async () => {
             const diagnosis = await diagnosisService.getAll();
-            setDiagnosis(diagnosis);
+            setDiagnoses(diagnosis);
         };
         void fetchDiagnosisList();
     }, []);
@@ -57,7 +57,11 @@ const App = () => {
                                 />
                             }
                         />
-                        <Route path="/patients/:id" element={<PatientPage />} />
+
+                        <Route
+                            path="/patients/:id"
+                            element={<PatientPage diagnoses={diagnoses} />}
+                        />
                     </Routes>
                 </Container>
             </Router>
