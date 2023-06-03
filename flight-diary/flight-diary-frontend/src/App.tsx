@@ -54,24 +54,91 @@ const App = () => {
                 <p style={{ color: "red" }}>{errorMessage}</p>
             ) : null}
             <form onSubmit={diaryCreation}>
+                date
                 <input
-                    placeholder="date"
+                    type="date"
                     value={newDate}
                     onChange={(event) => setNewDate(event.target.value)}
                 />
                 <br />
-                <input
-                    placeholder="visibility"
-                    value={newVisibility}
-                    onChange={(event) => setNewVisibility(event.target.value)}
-                />
-                <br />
-                <input
-                    placeholder="weather"
-                    value={newWeather}
-                    onChange={(event) => setNewWeather(event.target.value)}
-                />
-                <br />
+                <div>
+                    visibility&emsp;
+                    <label htmlFor="great">great</label>
+                    <input
+                        type="radio"
+                        name="visibility"
+                        checked={newVisibility === "great"}
+                        onChange={() => setNewVisibility("great")}
+                    />
+                    &emsp;
+                    <label htmlFor="good">good</label>
+                    <input
+                        type="radio"
+                        name="visibility"
+                        checked={newVisibility === "good"}
+                        onChange={() => setNewVisibility("good")}
+                    />
+                    &emsp;
+                    <label htmlFor="ok">ok</label>
+                    <input
+                        type="radio"
+                        name="visibility"
+                        checked={newVisibility === "ok"}
+                        onChange={() => setNewVisibility("ok")}
+                    />
+                    &emsp;
+                    <label htmlFor="poor">poor</label>
+                    <input
+                        type="radio"
+                        name="visibility"
+                        checked={newVisibility === "poor"}
+                        onChange={() => setNewVisibility("poor")}
+                    />
+                    &emsp;
+                </div>
+                <div>
+                    weather&emsp;
+                    <label htmlFor="sunny">sunny</label>
+                    <input
+                        type="radio"
+                        name="weather"
+                        checked={newWeather === "sunny"}
+                        onChange={() => setNewWeather("sunny")}
+                    />
+                    &emsp;
+                    <label htmlFor="rainy">rainy</label>
+                    <input
+                        type="radio"
+                        name="weather"
+                        checked={newWeather === "rainy"}
+                        onChange={() => setNewWeather("rainy")}
+                    />
+                    &emsp;
+                    <label htmlFor="cloudy">cloudy</label>
+                    <input
+                        type="radio"
+                        name="weather"
+                        checked={newWeather === "cloudy"}
+                        onChange={() => setNewWeather("cloudy")}
+                    />
+                    &emsp;
+                    <label htmlFor="stormy">stormy</label>
+                    <input
+                        type="radio"
+                        name="weather"
+                        checked={newWeather === "stormy"}
+                        onChange={() => setNewWeather("stormy")}
+                    />
+                    &emsp;
+                    <label htmlFor="windy">windy</label>
+                    <input
+                        type="radio"
+                        name="weather"
+                        checked={newWeather === "windy"}
+                        onChange={() => setNewWeather("windy")}
+                    />
+                </div>
+                comment
                 <input
                     placeholder="comment"
                     value={newComment}
