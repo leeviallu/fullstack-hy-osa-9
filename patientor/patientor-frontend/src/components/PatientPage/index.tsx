@@ -13,6 +13,7 @@ import TransgenderIcon from "@mui/icons-material/Transgender";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import WorkIcon from "@mui/icons-material/Work";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Diagnosis, Entry } from "../../types";
 
 const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
@@ -139,7 +140,15 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                 <MedicalServicesIcon />
             </p>
             <p>{entry.description}</p>
-            <p>{entry.healthCheckRating}</p>
+            {entry.healthCheckRating === 0 ? (
+                <FavoriteIcon style={{ color: "green" }} />
+            ) : entry.healthCheckRating === 1 ? (
+                <FavoriteIcon style={{ color: "yellow" }} />
+            ) : entry.healthCheckRating === 2 ? (
+                <FavoriteIcon style={{ color: "grey" }} />
+            ) : entry.healthCheckRating === 3 ? (
+                <FavoriteIcon style={{ color: "black" }} />
+            ) : null}
             <ul>
                 {entry.diagnosisCodes?.map((code, idx) => {
                     if (diagnoses) {
