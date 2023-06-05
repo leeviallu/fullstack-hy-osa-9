@@ -4,6 +4,7 @@ import cors from "cors";
 import { v1 as uuid } from "uuid";
 import diagnosesData from "./data/diagnoses";
 import patientData from "./data/patients";
+import { addEntry } from "./utils";
 
 const nonSensitivePatientData = patientData.map(
     ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
@@ -66,6 +67,47 @@ app.get("/api/patients/:id", (req, res) => {
     } else {
         res.status(404).send("Patient not found");
     }
+});
+
+app.get("/api/patients/:id/entries", (req, res) => {
+    const id = req.params.id;
+    const patient = patientData.find((p) => p.id === id);
+    if (patient) {
+        res.send(patient.entries);
+    } else {
+        res.status(404).send("Patient entries not found");
+    }
+});
+
+app.post("/api/patients/:id/entries", (req, res) => {
+    const patientId = req.params.id;
+    const patient = patientData.find((p) => p.id === patientId);
+    const {
+        description,
+        date,
+        specialist,
+        type,
+        diagnosisCodes,
+        healthCheckRating,
+        employerName,
+        sickLeave,
+        discharge,
+    } = req.body;
+
+    const entryDetails = {
+        description,
+        date,
+        specialist,
+        type,
+        diagnosisCodes,
+        healthCheckRating,
+        employerName,
+        sickLeave,
+        discharge,
+    };
+    const entry = addEntry(entryDetails);
+    patient?.entries.push(entry);
+    res.send(entry);
 });
 
 const PORT = 3001;
