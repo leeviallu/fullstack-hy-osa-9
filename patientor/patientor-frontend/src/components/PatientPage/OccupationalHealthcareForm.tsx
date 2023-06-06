@@ -2,53 +2,59 @@ import { useState, SyntheticEvent } from "react";
 
 import { TextField, Grid, Button } from "@mui/material";
 
-import { HealthCheckEntry, HealthCheckRating } from "../../types";
+import { OccupationalHealthcareEntry } from "../../types";
 import { parseString } from "../../utils";
 
 interface Props {
     onCancel: () => void;
-    onSubmit: (values: Omit<HealthCheckEntry, "id">) => void;
+    onSubmit: (values: Omit<OccupationalHealthcareEntry, "id">) => void;
 }
 
-const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
+const OccupationalHealthcareForm = ({ onCancel, onSubmit }: Props) => {
+    const type = "OccupationalHealthcare";
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
     const [specialist, setSpecialist] = useState("");
-    const [healthCheckRatingInput, setHealthCheckRatingInput] = useState("");
+    const [employerName, setEmployerName] = useState("");
     const [diagnosisCodesInput, setDiagnosisCodesInput] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [sickLeaveStart, setSickLeaveStart] = useState("");
+    const [sickLeaveEnd, setSickLeaveEnd] = useState("");
 
     const addEntry = (event: SyntheticEvent) => {
         event.preventDefault();
-        const type = "HealthCheck";
+
+        let sickLeave: { startDate: string; endDate: string } | undefined;
+        if (sickLeaveEnd && sickLeaveStart) {
+            sickLeave = {
+                startDate: parseString(sickLeaveStart),
+                endDate: parseString(sickLeaveEnd),
+            };
+        }
         const diagnosisCodes: string[] = diagnosisCodesInput.split(", ");
-        const healthCheckRating: HealthCheckRating | undefined = Number(
-            healthCheckRatingInput
-        );
         try {
             if (diagnosisCodes[0] === "") {
-                if (type === "HealthCheck") {
-                    const entry = onSubmit({
-                        type,
-                        description: parseString(description),
-                        date: parseString(date),
-                        specialist: parseString(specialist),
-                        healthCheckRating,
-                    });
-                    return entry;
-                }
-            }
-            if (type === "HealthCheck") {
                 const entry = onSubmit({
                     type,
                     description: parseString(description),
                     date: parseString(date),
                     specialist: parseString(specialist),
-                    healthCheckRating,
-                    diagnosisCodes,
+                    employerName: parseString(employerName),
+                    sickLeave,
                 });
                 return entry;
             }
+
+            const entry = onSubmit({
+                type,
+                description: parseString(description),
+                date: parseString(date),
+                specialist: parseString(specialist),
+                diagnosisCodes,
+                employerName: parseString(employerName),
+                sickLeave,
+            });
+            return entry;
         } catch (error) {
             setErrorMessage("Adding entry failed, check input fields");
             setTimeout(() => {
@@ -63,7 +69,7 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
                 <p style={{ color: "red" }}>{errorMessage}</p>
             ) : null}
             <form onSubmit={addEntry}>
-                <h3>New healthcheck entry</h3>
+                <h3>New occupational healthcare entry</h3>
                 <TextField
                     label="Description"
                     fullWidth
@@ -84,13 +90,11 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
                     onChange={({ target }) => setSpecialist(target.value)}
                 />
                 <TextField
-                    label="Healthcheck Rating"
-                    placeholder="0-4"
+                    label="Employer name"
                     fullWidth
-                    value={healthCheckRatingInput}
-                    type="number"
+                    value={employerName}
                     onChange={({ target }) => {
-                        setHealthCheckRatingInput(target.value);
+                        setEmployerName(target.value);
                     }}
                 />
                 <TextField
@@ -100,6 +104,24 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
                     value={diagnosisCodesInput}
                     onChange={({ target }) => {
                         setDiagnosisCodesInput(target.value);
+                    }}
+                />
+                <TextField
+                    label="Sick leave start date"
+                    placeholder="YYYY-MM-DD"
+                    fullWidth
+                    value={sickLeaveStart}
+                    onChange={({ target }) => {
+                        setSickLeaveStart(target.value);
+                    }}
+                />
+                <TextField
+                    label="Sick leave end date"
+                    placeholder="YYYY-MM-DD"
+                    fullWidth
+                    value={sickLeaveEnd}
+                    onChange={({ target }) => {
+                        setSickLeaveEnd(target.value);
                     }}
                 />
 
@@ -132,4 +154,4 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
     );
 };
 
-export default AddEntryForm;
+export default OccupationalHealthcareForm;
