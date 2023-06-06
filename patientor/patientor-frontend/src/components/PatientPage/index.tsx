@@ -5,7 +5,6 @@ import {
     HospitalEntry,
     OccupationalHealthcareEntry,
     Patient,
-    PatientFormValues,
 } from "../../types";
 import patientService from "../../services/patients";
 import MaleIcon from "@mui/icons-material/Male";
@@ -207,14 +206,6 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                     </h2>
                     <p>ssn: {patient.ssn}</p>
                     <p>occupation: {patient.occupation}</p>
-                    {patient.entries.length > 0 ? (
-                        <div>
-                            <h3>entries</h3>
-                            {patient.entries.map((entry, idx) => {
-                                return <EntryDetails key={idx} entry={entry} />;
-                            })}
-                        </div>
-                    ) : null}
                     <AddEntryForm
                         onCancel={function (): void {
                             throw new Error("Function not implemented.");
@@ -227,6 +218,15 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                             window.location.reload();
                         }}
                     />
+                    <br />
+                    {patient.entries.length > 0 ? (
+                        <div>
+                            <h3>entries</h3>
+                            {patient.entries.map((entry, idx) => {
+                                return <EntryDetails key={idx} entry={entry} />;
+                            })}
+                        </div>
+                    ) : null}
                 </div>
             ) : null}
         </div>

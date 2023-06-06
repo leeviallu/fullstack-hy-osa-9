@@ -16,6 +16,7 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
     const [specialist, setSpecialist] = useState("");
     const [healthCheckRatingInput, setHealthCheckRatingInput] = useState("");
     const [diagnosisCodesInput, setDiagnosisCodesInput] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const addEntry = (event: SyntheticEvent) => {
         event.preventDefault();
@@ -24,7 +25,19 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
         const healthCheckRating: HealthCheckRating | undefined = Number(
             healthCheckRatingInput
         );
-        if (diagnosisCodes[0] === "") {
+        try {
+            if (diagnosisCodes[0] === "") {
+                if (type === "HealthCheck") {
+                    const entry = onSubmit({
+                        type,
+                        description: parseString(description),
+                        date: parseString(date),
+                        specialist: parseString(specialist),
+                        healthCheckRating,
+                    });
+                    return entry;
+                }
+            }
             if (type === "HealthCheck") {
                 const entry = onSubmit({
                     type,
@@ -32,26 +45,25 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
                     date: parseString(date),
                     specialist: parseString(specialist),
                     healthCheckRating,
+                    diagnosisCodes,
                 });
                 return entry;
             }
-        }
-        if (type === "HealthCheck") {
-            const entry = onSubmit({
-                type,
-                description: parseString(description),
-                date: parseString(date),
-                specialist: parseString(specialist),
-                healthCheckRating,
-                diagnosisCodes,
-            });
-            return entry;
+        } catch (error) {
+            setErrorMessage("Adding entry failed, check input fields");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 5000);
         }
     };
 
     return (
-        <div>
+        <div style={{ border: "dotted", padding: "10px" }}>
+            {errorMessage ? (
+                <p style={{ color: "red" }}>{errorMessage}</p>
+            ) : null}
             <form onSubmit={addEntry}>
+                <h3>New healthcheck entry</h3>
                 <TextField
                     label="Description"
                     fullWidth
@@ -73,6 +85,7 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
                 />
                 <TextField
                     label="Healthcheck Rating"
+                    placeholder="0-4"
                     fullWidth
                     value={healthCheckRatingInput}
                     type="number"
@@ -82,6 +95,7 @@ const AddEntryForm = ({ onCancel, onSubmit }: Props) => {
                 />
                 <TextField
                     label="Diagnosis codes"
+                    placeholder='e.g. "S03.5, M24.2"'
                     fullWidth
                     value={diagnosisCodesInput}
                     onChange={({ target }) => {
