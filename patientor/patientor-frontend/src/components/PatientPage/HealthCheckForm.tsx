@@ -4,13 +4,14 @@ import { TextField, Grid, Button } from "@mui/material";
 
 import { HealthCheckEntry, HealthCheckRating } from "../../types";
 import { parseString } from "../../utils";
+import { height } from "@mui/system";
 
 interface Props {
-    onCancel: () => void;
     onSubmit: (values: Omit<HealthCheckEntry, "id">) => void;
 }
 
-const HealthCheckForm = ({ onCancel, onSubmit }: Props) => {
+const HealthCheckForm = ({ onSubmit }: Props) => {
+    const [visible, setVisible] = useState(false);
     const type = "HealthCheck";
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
@@ -58,72 +59,70 @@ const HealthCheckForm = ({ onCancel, onSubmit }: Props) => {
             {errorMessage ? (
                 <p style={{ color: "red" }}>{errorMessage}</p>
             ) : null}
-            <form onSubmit={addEntry}>
-                <h3>New healthcheck entry</h3>
-                <TextField
-                    label="Description"
-                    fullWidth
-                    value={description}
-                    onChange={({ target }) => setDescription(target.value)}
-                />
-                <TextField
-                    label="Date"
-                    placeholder="YYYY-MM-DD"
-                    fullWidth
-                    value={date}
-                    onChange={({ target }) => setDate(target.value)}
-                />
-                <TextField
-                    label="Specialist"
-                    fullWidth
-                    value={specialist}
-                    onChange={({ target }) => setSpecialist(target.value)}
-                />
-                <TextField
-                    label="Healthcheck Rating"
-                    placeholder="0-4"
-                    fullWidth
-                    value={healthCheckRatingInput}
-                    type="number"
-                    onChange={({ target }) => {
-                        setHealthCheckRatingInput(target.value);
-                    }}
-                />
-                <TextField
-                    label="Diagnosis codes"
-                    placeholder='e.g. "S03.5, M24.2"'
-                    fullWidth
-                    value={diagnosisCodesInput}
-                    onChange={({ target }) => {
-                        setDiagnosisCodesInput(target.value);
-                    }}
-                />
-
-                <Grid>
-                    <Grid item>
-                        <Button
-                            color="secondary"
-                            variant="contained"
-                            style={{ float: "left" }}
-                            type="button"
-                            onClick={onCancel}
-                        >
-                            Cancel
-                        </Button>
+            <h3>
+                New healthcheck entry
+                {!visible ? (
+                    <button onClick={() => setVisible(true)}>show</button>
+                ) : (
+                    <button onClick={() => setVisible(false)}>hide</button>
+                )}
+            </h3>
+            {visible ? (
+                <form onSubmit={addEntry}>
+                    <TextField
+                        label="Description"
+                        fullWidth
+                        value={description}
+                        onChange={({ target }) => setDescription(target.value)}
+                    />
+                    <TextField
+                        type="date"
+                        fullWidth
+                        value={date}
+                        onChange={({ target }) => setDate(target.value)}
+                    />
+                    <TextField
+                        label="Specialist"
+                        fullWidth
+                        value={specialist}
+                        onChange={({ target }) => setSpecialist(target.value)}
+                    />
+                    <select
+                        value={healthCheckRatingInput}
+                        onChange={({ target }) => {
+                            setHealthCheckRatingInput(target.value);
+                        }}
+                        style={{ width: "100%", height: "50px" }}
+                    >
+                        <option value="0">Healthy: 0</option>
+                        <option value="1">Low Risk: 1</option>
+                        <option value="2">High Risk: 2</option>
+                        <option value="3">Critical Risk: 3</option>
+                    </select>
+                    <TextField
+                        label="Diagnosis codes"
+                        placeholder='e.g. "S03.5, M24.2"'
+                        fullWidth
+                        value={diagnosisCodesInput}
+                        onChange={({ target }) => {
+                            setDiagnosisCodesInput(target.value);
+                        }}
+                    />
+                    <Grid>
+                        <Grid item>
+                            <Button
+                                style={{
+                                    float: "left",
+                                }}
+                                type="submit"
+                                variant="contained"
+                            >
+                                Add
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Button
-                            style={{
-                                float: "right",
-                            }}
-                            type="submit"
-                            variant="contained"
-                        >
-                            Add
-                        </Button>
-                    </Grid>
-                </Grid>
-            </form>
+                </form>
+            ) : null}
         </div>
     );
 };

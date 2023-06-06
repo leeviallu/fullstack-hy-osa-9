@@ -209,9 +209,6 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                     <p>ssn: {patient.ssn}</p>
                     <p>occupation: {patient.occupation}</p>
                     <HealthCheckForm
-                        onCancel={function (): void {
-                            throw new Error("Function not implemented.");
-                        }}
                         onSubmit={function (
                             values: Omit<HealthCheckEntry, "id">
                         ): void {
@@ -221,9 +218,6 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                         }}
                     />
                     <OccupationalHealthcareForm
-                        onCancel={function (): void {
-                            throw new Error("Function not implemented.");
-                        }}
                         onSubmit={function (
                             values: Omit<OccupationalHealthcareEntry, "id">
                         ): void {
@@ -233,9 +227,6 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                         }}
                     />
                     <HospitalForm
-                        onCancel={function (): void {
-                            throw new Error("Function not implemented.");
-                        }}
                         onSubmit={function (
                             values: Omit<HospitalEntry, "id">
                         ): void {

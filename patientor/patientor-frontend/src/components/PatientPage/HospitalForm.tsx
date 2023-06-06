@@ -6,11 +6,11 @@ import { HospitalEntry } from "../../types";
 import { parseString } from "../../utils";
 
 interface Props {
-    onCancel: () => void;
     onSubmit: (values: Omit<HospitalEntry, "id">) => void;
 }
 
-const HospitalForm = ({ onCancel, onSubmit }: Props) => {
+const HospitalForm = ({ onSubmit }: Props) => {
+    const [visible, setVisible] = useState(false);
     const type = "Hospital";
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
@@ -65,79 +65,76 @@ const HospitalForm = ({ onCancel, onSubmit }: Props) => {
             {errorMessage ? (
                 <p style={{ color: "red" }}>{errorMessage}</p>
             ) : null}
-            <form onSubmit={addEntry}>
-                <h3>New hospital entry</h3>
-                <TextField
-                    label="Description"
-                    fullWidth
-                    value={description}
-                    onChange={({ target }) => setDescription(target.value)}
-                />
-                <TextField
-                    label="Date"
-                    placeholder="YYYY-MM-DD"
-                    fullWidth
-                    value={date}
-                    onChange={({ target }) => setDate(target.value)}
-                />
-                <TextField
-                    label="Specialist"
-                    fullWidth
-                    value={specialist}
-                    onChange={({ target }) => setSpecialist(target.value)}
-                />
-                <TextField
-                    label="Diagnosis codes"
-                    placeholder='e.g. "S03.5, M24.2"'
-                    fullWidth
-                    value={diagnosisCodesInput}
-                    onChange={({ target }) => {
-                        setDiagnosisCodesInput(target.value);
-                    }}
-                />
-                <TextField
-                    label="Discharge date"
-                    placeholder="YYYY-MM-DD"
-                    fullWidth
-                    value={dischargeDate}
-                    onChange={({ target }) => {
-                        setDischargeDate(target.value);
-                    }}
-                />
-                <TextField
-                    label="Discharge criteria"
-                    fullWidth
-                    value={dischargeCriteria}
-                    onChange={({ target }) => {
-                        setDischargeCriteria(target.value);
-                    }}
-                />
-
-                <Grid>
-                    <Grid item>
-                        <Button
-                            color="secondary"
-                            variant="contained"
-                            style={{ float: "left" }}
-                            type="button"
-                            onClick={onCancel}
-                        >
-                            Cancel
-                        </Button>
+            <h3>
+                New hospital entry
+                {!visible ? (
+                    <button onClick={() => setVisible(true)}>show</button>
+                ) : (
+                    <button onClick={() => setVisible(false)}>hide</button>
+                )}
+            </h3>
+            {visible ? (
+                <form onSubmit={addEntry}>
+                    <TextField
+                        label="Description"
+                        fullWidth
+                        value={description}
+                        onChange={({ target }) => setDescription(target.value)}
+                    />
+                    <TextField
+                        type="date"
+                        placeholder="YYYY-MM-DD"
+                        fullWidth
+                        value={date}
+                        onChange={({ target }) => setDate(target.value)}
+                    />
+                    <TextField
+                        label="Specialist"
+                        fullWidth
+                        value={specialist}
+                        onChange={({ target }) => setSpecialist(target.value)}
+                    />
+                    <TextField
+                        label="Diagnosis codes"
+                        placeholder='e.g. "S03.5, M24.2"'
+                        fullWidth
+                        value={diagnosisCodesInput}
+                        onChange={({ target }) => {
+                            setDiagnosisCodesInput(target.value);
+                        }}
+                    />
+                    <h4>Discharge:</h4>
+                    <TextField
+                        type="date"
+                        fullWidth
+                        value={dischargeDate}
+                        onChange={({ target }) => {
+                            setDischargeDate(target.value);
+                        }}
+                    />
+                    <TextField
+                        label="Criteria"
+                        fullWidth
+                        value={dischargeCriteria}
+                        onChange={({ target }) => {
+                            setDischargeCriteria(target.value);
+                        }}
+                    />
+                    <Grid>
+                        <Grid item>
+                            <Button
+                                style={{
+                                    float: "left",
+                                }}
+                                type="submit"
+                                variant="contained"
+                            >
+                                Add
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Button
-                            style={{
-                                float: "right",
-                            }}
-                            type="submit"
-                            variant="contained"
-                        >
-                            Add
-                        </Button>
-                    </Grid>
-                </Grid>
-            </form>
+                </form>
+            ) : null}
         </div>
     );
 };
