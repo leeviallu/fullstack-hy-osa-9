@@ -18,6 +18,7 @@ import { Diagnosis, Entry } from "../../types";
 import entriesService from "../../services/entries";
 import OccupationalHealthcareForm from "./OccupationalHealthcareForm";
 import HealthCheckForm from "./HealthCheckForm";
+import HospitalForm from "./HospitalForm";
 
 const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
     const { id } = useParams();
@@ -225,6 +226,18 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                         }}
                         onSubmit={function (
                             values: Omit<OccupationalHealthcareEntry, "id">
+                        ): void {
+                            console.log(values);
+                            entriesService.create(values, id);
+                            window.location.reload();
+                        }}
+                    />
+                    <HospitalForm
+                        onCancel={function (): void {
+                            throw new Error("Function not implemented.");
+                        }}
+                        onSubmit={function (
+                            values: Omit<HospitalEntry, "id">
                         ): void {
                             console.log(values);
                             entriesService.create(values, id);
