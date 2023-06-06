@@ -4,7 +4,7 @@ const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
 };
 
-const parseString = (item: unknown) => {
+export const parseString = (item: unknown) => {
     if (!item || !isString(item)) {
         throw new Error("Incorrect or missing " + item);
     }

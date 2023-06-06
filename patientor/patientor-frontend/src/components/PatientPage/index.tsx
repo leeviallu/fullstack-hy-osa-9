@@ -5,6 +5,7 @@ import {
     HospitalEntry,
     OccupationalHealthcareEntry,
     Patient,
+    PatientFormValues,
 } from "../../types";
 import patientService from "../../services/patients";
 import MaleIcon from "@mui/icons-material/Male";
@@ -15,6 +16,8 @@ import WorkIcon from "@mui/icons-material/Work";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Diagnosis, Entry } from "../../types";
+import AddEntryForm from "./AddEntryForm";
+import entriesService from "../../services/entries";
 
 const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
     const { id } = useParams();
@@ -212,6 +215,18 @@ const PatientPage = ({ diagnoses }: { diagnoses: Diagnosis[] | undefined }) => {
                             })}
                         </div>
                     ) : null}
+                    <AddEntryForm
+                        onCancel={function (): void {
+                            throw new Error("Function not implemented.");
+                        }}
+                        onSubmit={function (
+                            values: Omit<HealthCheckEntry, "id">
+                        ): void {
+                            console.log(values);
+                            entriesService.create(values, id);
+                            window.location.reload();
+                        }}
+                    />
                 </div>
             ) : null}
         </div>
