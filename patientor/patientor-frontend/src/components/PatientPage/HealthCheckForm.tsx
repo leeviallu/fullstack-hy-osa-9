@@ -4,7 +4,6 @@ import { TextField, Grid, Button } from "@mui/material";
 
 import { HealthCheckEntry, HealthCheckRating } from "../../types";
 import { parseString } from "../../utils";
-import { height } from "@mui/system";
 
 interface Props {
     onSubmit: (values: Omit<HealthCheckEntry, "id">) => void;
